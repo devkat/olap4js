@@ -43,22 +43,14 @@
 		* @param {function} callback A function to call after the databases have been retrieved from the OLAP server
 		*/
 		getOlapDatabases: function getOlapDatabases(callback){
-			if (this.sources.length ==0) {
-				var sources = this.fetchOlapDatasources() //function(sources){
-				if (callback && typeof callback == 'function') {
-					callback.call(this, sources);
-				} else {
-				    return sources;
-				}
-				//});
+			if (this.sources.length === 0) {
+				return this.fetchOlapDatasources(callback);
 			} else {
-				if (callback && typeof callback == 'function') {
+				if (callback && typeof callback === 'function') {
 					callback.call(this, this.sources);
-				} else {
-				    return sources;
 				}
+				return this.sources;
 			}
-			return this.sources;
 		},
 		fetchOlapDatasources: function fetchOlapDatasources(callback){
 			//empty function that does not fetch anything

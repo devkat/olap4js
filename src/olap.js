@@ -80,26 +80,20 @@
 		* @method getCubes
 		* @param {function} callback A function to call after the cubes have been retrieved from the OLAP server
 		*/
-		getCubes: function getCubes(callback) {
-		
+		getCubes: function(callback) {
 			var idx_ds, idx_cat, sources, source, catalogs, catalog, cubes, cube, _cubes = [];
-			//this.getOlapDatabases(function(sources){
-			sources = this.getOlapDatabases();
-			for (idx_ds in sources) {
-				source = sources[idx_ds];
-				catalogs = source.getCatalogs();
+			this.getOlapDatabases(function(sources) {
+				for (idx_ds in sources) {
+					source = sources[idx_ds];
+					catalogs = source.getCatalogs();
 					for (idx_cat in catalogs){
 						catalog = catalogs[idx_cat];
 						cubes = catalog.getCubes();
 						_cubes = _cubes.concat(cubes);
 					}
-			}
-			if (typeof callback == 'function') {
+				}
 				callback.call(this, _cubes);
-			} else {
-				return _cubes;
-			}
-			//})    
+			});
 		},
 		//Probably get rid of this so we just have getCubes and then getMetadata for each cube.
 		getLevels: function getLevels(callback) {
